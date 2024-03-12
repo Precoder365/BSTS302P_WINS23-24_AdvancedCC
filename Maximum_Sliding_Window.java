@@ -1,19 +1,35 @@
 import java.util.*;
 
 public class Main{
-    public static int[] maxSliding(int[] arr,int n,int k){
-        int ans[]=new int[n-k+1];
-        int ind=0;
+    static class CustomPair {
+        int val;
+        int ind;
+ 
+        public CustomPair(int val, int ind)
+        {
+            this.val = val;
+            this.ind = ind;
+        }
+    }
+    
+    public static List<Integer> maxSliding(int[] arr, int n, int k){
+        PriorityQueue<CustomPair> pq=new PriorityQueue<>((a, b) -> b.val - a.val);
+        List<Integer> ans=new ArrayList<>();
         
-        for(int i=0;i<=n-k;i++){
-            int maxi=Integer.MIN_VALUE;
-            for(int j=i;j<i+k;j++){
-                if(arr[j]>maxi){
-                    maxi=arr[j];
-                }
+        for (int i = 0; i < k; i++) {
+            pq.offer(new CustomPair(arr[i], i));
+        }
+        
+        ans.add(pq.peek().val);
+        
+        for (int i=k; i<n; i++) {
+            pq.offer(new CustomPair(arr[i], i));
+            
+            while (pq.peek().ind <= i-k) {
+                pq.poll();
             }
-            ans[ind]=maxi;
-            ind++;
+            
+            ans.add(pq.peek().val);
         }
         
         return ans;
@@ -30,10 +46,10 @@ public class Main{
             arr[i]=sc.nextInt();
         }
         
-        int ans[]=maxSliding(arr,n,k);
+        List<Integer> ans=maxSliding(arr,n,k);
         
-        for(int i=0;i<ans.length;i++){
-            System.out.println(ans[i]+" ");
+        for(int i=0;i<ans.size();i++){
+            System.out.println(ans.get(i)+" ");
         }
     }
 }
