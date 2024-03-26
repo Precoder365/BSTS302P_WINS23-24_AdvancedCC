@@ -1,32 +1,31 @@
 import java.util.*;
 
 public class Main{
-    public static void dfs(ArrayList<ArrayList<Integer>> lst,boolean[] visited, Stack<Integer> ans, int node, int v){
-        visited[node]=true;
-        
-        for(int i=0;i<lst.get(node).size();i++){
-            int adjacentNode = lst.get(node).get(i);
-            if (!visited[adjacentNode]) {
-                dfs(lst, visited, ans, adjacentNode, v); // Pass adjacentNode 
+    public static void topologicalSortBFS(ArrayList<ArrayList<Integer>> lst,int v){
+        int[] indegree=new int[v];
+        for(int i=0;i<v;i++){
+            for(int j=0;j<lst.get(i).size();j++){
+                indegree[lst.get(i).get(j)]+=1;
             }
         }
         
-        ans.push(node);
-    }
-    
-    public static void topologicalSort(ArrayList<ArrayList<Integer>> lst,int v){
-        boolean[] visited=new boolean[v];
-        
-        Stack<Integer> ans=new Stack<>();
+        Queue<Integer> q=new LinkedList<>();
         
         for(int i=0;i<v;i++){
-            if(!visited[i]){
-                dfs(lst,visited,ans,i,v);
+            if(indegree[i]==0){
+                q.offer(i);
             }
         }
         
-        while(!ans.isEmpty()){
-            System.out.print(ans.pop()+" ");
+        while(!q.isEmpty()){
+            int node=q.poll();
+            System.out.print(node+" ");
+            for(int j=0;j<lst.get(node).size();j++){
+                indegree[lst.get(node).get(j)]-=1;
+                if(indegree[lst.get(node).get(j)]==0){
+                    q.offer(lst.get(node).get(j));
+                }
+            }
         }
     }
     
@@ -48,6 +47,6 @@ public class Main{
             lst.get(s).add(d);
         }
         
-        topologicalSort(lst,v);
+        topologicalSortBFS(lst,v);
     }
 }
