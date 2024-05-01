@@ -60,6 +60,15 @@ public class Main {
                 }
             }
             
+            else if (choice.equals("isEmpty")) {
+                if(lst.isEmpty()){
+                    System.out.println("Yes");
+                }
+                else{
+                    System.out.println("No");
+                }
+            }
+            
             else if (choice.equals("exit")) {
                 break;
             }
