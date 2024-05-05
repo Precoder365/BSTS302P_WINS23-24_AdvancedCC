@@ -2,6 +2,8 @@ import java.util.*;
 
 public class Main{
     public static int lbs(int[] arr,int n){
+        if(arr==null || n==0) return 0;
+        
         int[] lis=new int[n];
         int[] lds=new int[n];
         
