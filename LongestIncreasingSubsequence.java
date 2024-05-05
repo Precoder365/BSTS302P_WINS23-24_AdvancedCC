@@ -4,30 +4,33 @@ public class Main{
     public static int lis(int[] arr, int n){
         if(arr==null || n==0) return -0;
         
-        int[] L=new int[n];
-        
-        // Initialize array with all 1s
+        List<List<Integer>> lis=new ArrayList<>();
         for(int i=0;i<n;i++){
-            L[i]=1;
+            lis.add(new ArrayList<>());
         }
-    
         
+        lis.get(0).add(arr[0]);
         for(int i=1;i<n;i++){
             for(int j=0;j<i;j++){
-                if(arr[i]>arr[j] && L[i]<L[j]+1){
-                    L[i]=L[j]+1;
+                if(arr[i]>arr[j] && lis.get(i).size()<lis.get(j).size()){
+                    lis.set(i,new ArrayList<>(lis.get(j)));
                 }
             }
+            lis.get(i).add(arr[i]);
         }
         
-        int maxi=Integer.MIN_VALUE;
-        for(int i=0;i<n;i++){
-            if(L[i]>maxi){
-                maxi=L[i];
+        int peak=0;
+        for(int i=1;i<n;i++){
+            if(lis.get(i).size()>lis.get(peak).size()){
+                peak=i;
             }
         }
         
-        return maxi;
+        for(int ele: lis.get(peak)){
+            System.out.print(ele+" ");
+        }
+        
+        return lis.get(peak).size();
     }
     
     public static void main(String[] args){
@@ -39,6 +42,6 @@ public class Main{
             arr[i]=sc.nextInt();
         }
         
-        System.out.println(lis(arr,n));
+        System.out.println("Size="+lis(arr,n));
     }
 }
