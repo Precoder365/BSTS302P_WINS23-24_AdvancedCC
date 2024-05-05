@@ -1,46 +1,52 @@
 import java.util.*;
 
-public class Main{
-    public static int lbs(int[] arr,int n){
-        if(arr==null || n==0) return 0;
+public class Main {
+    public static void findLongestBitonicSubsequence(int[] arr, int n) {
+        if(arr==null || n==0) return;
         
-        int[] lis=new int[n];
-        int[] lds=new int[n];
-        
-        for(int i=0;i<n;i++){
-            lis[i]=1;
-            lds[i]=1;
+        List<List<Integer>> lis = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            lis.add(new ArrayList<>());
         }
-
-        // i[1,n-1] and j[0,i-1]
-        for(int i=1;i<n;i++){
-            for(int j=0;j<i;j++){
-                if(arr[i]>arr[j] && lis[i]<lis[j]+1){
-                    lis[i]=lis[j]+1;
+        
+        lis.get(0).add(arr[0]);
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (lis.get(i).size() < lis.get(j).size() && arr[i] > arr[j]) {
+                    lis.set(i, new ArrayList<>(lis.get(j)));
                 }
             }
+            lis.get(i).add(arr[i]);
         }
-
-        // i[n-1,0] and j[n-1,i-1]
-        for(int i=n-1;i>=0;i--){
-            for(int j=n-1;j>i;j--){
-                if(arr[i]>arr[j] && lds[i]<lds[j]+1){
-                    lds[i]=lds[j]+1;
+        
+        List<List<Integer>> lds = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            lds.add(new ArrayList<>());
+        }
+        
+        lds.get(n - 1).add(0, arr[n - 1]);
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = n - 1; j > i; j--) {
+                if (lds.get(i).size() < lds.get(j).size() && arr[i] > arr[j]) {
+                    lds.set(i, new ArrayList<>(lds.get(j)));
                 }
             }
-        }
+            lds.get(i).add(0, arr[i]);
+       }
         
-        int maxi=lis[0]+lds[0]-1;
-        for(int i=0;i<n;i++){
-            if(lis[i]+lds[i]-1>maxi){
-                maxi=lis[i]+lds[i]-1;
+        int peakIndex = 0;
+        for (int i = 1; i < n; i++) {
+            if ((lis.get(i).size() + lds.get(i).size()) >
+                (lis.get(peakIndex).size() + lds.get(peakIndex).size())) {
+                peakIndex = i;
             }
         }
-        
-        return maxi;
+        System.out.print(lis.get(peakIndex));
+        lds.get(peakIndex).remove(0);
+        System.out.println(lds.get(peakIndex));
     }
     
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Scanner sc=new Scanner(System.in);
         int n=sc.nextInt();
         int arr[]=new int[n];
@@ -48,6 +54,6 @@ public class Main{
             arr[i]=sc.nextInt();
         }
         
-        System.out.println(lbs(arr,n));
+        findLongestBitonicSubsequence(arr,n);
     }
 }
