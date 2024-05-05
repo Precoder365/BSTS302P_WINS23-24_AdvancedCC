@@ -1,34 +1,18 @@
 public class Main {
-    public static int longestPalindromicSubsequence(String s) {
-        if (s == null || s.length() == 0) return 0;
+    public static int findLongestPalindrome(String X, int i, int j) {
+        if(i>j) return 0;
+        if (i==j) return 1;
 
-        int n = s.length();
-        int[][] dp = new int[n][n];
-
-        for (int i = 0; i < n; i++) {
-            dp[i][i] = 1;
+        if (X.charAt(i) == X.charAt(j)) {
+            return findLongestPalindrome(X, i + 1, j - 1) + 2;
         }
 
-        for (int len = 2; len <= n; len++) {
-            for (int i = 0; i <= n - len; i++) {
-                int j = i + len - 1;
-                if (s.charAt(i) == s.charAt(j)) {
-                    if (len == 2) {
-                        dp[i][j] = 2;
-                    } else {
-                        dp[i][j] = dp[i + 1][j - 1] + 2;
-                    }
-                } else {
-                    dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
-                }
-            }
-        }
-
-        return dp[0][n - 1];
+        return Integer.max(findLongestPalindrome(X, i, j - 1),findLongestPalindrome(X, i + 1, j));
     }
 
     public static void main(String[] args) {
-        String s = "character";
-        System.out.println("Length of longest palindromic subsequence: " + longestPalindromicSubsequence(s));
+        String X = "ABCDEF";
+        int n = X.length();
+        System.out.print(findLongestPalindrome(X, 0, n - 1));
     }
 }
