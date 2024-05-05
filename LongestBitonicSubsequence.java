@@ -1,46 +1,51 @@
-// LIS+LDS-1(peak)
+import java.util.*;
 
-public class Main {
-    public static int longestBitonicSubsequence(int[] nums) {
-        if (nums == null || nums.length == 0) return 0;
+public class Main{
+    public static int lbs(int[] arr,int n){
+        int[] lis=new int[n];
+        int[] lds=new int[n];
+        
+        for(int i=0;i<n;i++){
+            lis[i]=1;
+            lds[i]=1;
+        }
 
-        int n = nums.length;
-
-        // Length of increasing subsequence ending at index i
-        int[] lis = new int[n];
-        // Length of decreasing subsequence starting at index i
-        int[] lds = new int[n];
-
-        // Calculate LIS (Longest Increasing Subsequence) from left to right
-        for (int i = 0; i < n; i++) {
-            lis[i] = 1;
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {
-                    lis[i] = Math.max(lis[i], lis[j] + 1);
+        // i[1,n-1] and j[0,i-1]
+        for(int i=1;i<n;i++){
+            for(int j=0;j<i;j++){
+                if(arr[i]>arr[j] && lis[i]<lis[j]+1){
+                    lis[i]=lis[j]+1;
                 }
             }
         }
 
-        // Calculate LDS (Longest Decreasing Subsequence) from right to left
-        for (int i = n - 1; i >= 0; i--) {
-            lds[i] = 1;
-            for (int j = n - 1; j > i; j--) {
-                if (nums[i] > nums[j]) {
-                    lds[i] = Math.max(lds[i], lds[j] + 1);
+        // i[n-1,0] and j[n-1,i-1]
+        for(int i=n-1;i>=0;i--){
+            for(int j=n-1;j>i;j--){
+                if(arr[i]>arr[j] && lds[i]<lds[j]+1){
+                    lds[i]=lds[j]+1;
                 }
             }
         }
-
-        int maxLength = 0;
-        for (int i = 0; i < n; i++) {
-            maxLength = Math.max(maxLength, lis[i] + lds[i] - 1);
+        
+        int maxi=lis[0]+lds[0]-1;
+        for(int i=0;i<n;i++){
+            if(lis[i]+lds[i]-1>maxi){
+                maxi=lis[i]+lds[i]-1;
+            }
         }
-
-        return maxLength;
+        
+        return maxi;
     }
-
-    public static void main(String[] args) {
-        int[] nums = {1, 11, 2, 10, 4, 5, 2, 1};
-        System.out.println("Length of longest bitonic subsequence: " + longestBitonicSubsequence(nums));
+    
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int arr[]=new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=sc.nextInt();
+        }
+        
+        System.out.println(lbs(arr,n));
     }
 }
