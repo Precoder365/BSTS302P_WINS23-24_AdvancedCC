@@ -14,6 +14,32 @@ public class Main {
     }
 }
 
+// ---------------------- Using entrySet() -------------------------------
+
+import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Map<String,String> hmap=new HashMap<>();
+        hmap.put("2","Two");
+        hmap.put("3","Three");
+        hmap.put("1","One");
+        hmap.put("100","Hundred");
+        
+        System.out.println(hmap);
+        
+        Map<Integer,String> tmap=new TreeMap<>();
+        
+        for (Map.Entry<String,String> entry: hmap.entrySet()){
+            tmap.put(Integer.parseInt(entry.getKey()), entry.getValue());
+        }
+        
+        System.out.println(tmap);
+        
+        
+    }
+}
+
 // ------------------------ For custom comparator ------------------------------
 
 import java.util.*;
