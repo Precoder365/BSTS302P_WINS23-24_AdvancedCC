@@ -6,6 +6,7 @@ public class Main{
         
         int n=sc.nextInt();
         PriorityQueue<Integer> pq=new PriorityQueue<>();
+        // PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder()); (for desc)
         for(int i=0;i<n;i++){
             pq.offer(sc.nextInt());
         }
