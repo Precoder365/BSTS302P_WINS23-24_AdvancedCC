@@ -12,16 +12,6 @@ class BinaryTreeNode<T> {
     }
 }
 
-class Pair{
-    BinaryTreeNode<Integer> node;
-    int xVal;
-    
-    public Pair(BinaryTreeNode<Integer> node, int xVal){
-        this.node=node;
-        this.xVal=xVal;
-    }
-}
-
 public class Main {
     
     // VIEWS
