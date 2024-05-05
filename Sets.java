@@ -40,7 +40,7 @@ public class Main {
         // set.isEmpty()
         // set.add()
         // set.remove()
-        // set.clear
+        // set.clear()
         
         for(String element: treeSet){
             System.out.println(element);
