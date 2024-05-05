@@ -13,7 +13,7 @@ public class Main{
                     L[i][j]=L[i-1][j-1]+1;
                 }
                 else{
-                    L[i][j]=Math.max(L[i-1][j],L[j][i-1]);
+                    L[i][j]=Math.max(L[i-1][j],L[i][j-1]);
                 }
             }
         }
