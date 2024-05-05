@@ -1,31 +1,38 @@
 import java.util.*;
 
-public class Main {
-    public static int lengthOfLIS(int[] nums) {
-        if (nums == null || nums.length == 0) return 0;
-
-        int n = nums.length;
-        int[] dp = new int[n];
-        Arrays.fill(dp, 1);
-
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
+public class Main{
+    public static int lis(int[] arr, int n){
+        int[] L=new int[n];
+    
+        L[0]=1;
+        for(int i=1;i<n;i++){
+            L[i]=1;
+            for(int j=0;j<i;j++){
+                if(arr[i]>arr[j] && L[i]<L[j]+1){
+                    L[i]=L[j]+1;
                 }
             }
         }
-
-        int maxLength = 0;
-        for (int length : dp) {
-            maxLength = Math.max(maxLength, length);
+        
+        int maxi=Integer.MIN_VALUE;
+        for(int i=0;i<n;i++){
+            if(L[i]>maxi){
+                maxi=L[i];
+            }
         }
-
-        return maxLength;
+        
+        return maxi;
     }
-
-    public static void main(String[] args) {
-        int[] nums = {10, 9, 2, 5, 3, 7, 101, 18};
-        System.out.println("Length of longest increasing subsequence: " + lengthOfLIS(nums));
+    
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        
+        int n=sc.nextInt();
+        int[] arr=new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=sc.nextInt();
+        }
+        
+        System.out.println(lis(arr,n));
     }
 }
