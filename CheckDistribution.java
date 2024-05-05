@@ -1,49 +1,45 @@
 import java.util.*;
 
-public class Main {
-    static boolean checkCount(int[] arr, int n, int k) {
-        int count;
-        for (int i = 0; i < n; i++) {
-            count = 0;
-            for (int j = 0; j < n; j++) {
-                if (arr[j] == arr[i])
-                    count++;
-                if (count > 2 * k)
-                    return false;
+public class Main{
+    public static boolean checkPossible(int[] arr, int n, int k){
+        Map<Integer,Integer> hmap=new HashMap<>();
+        for(int i=0;i<n;i++){
+            if(hmap.containsKey(arr[i])){
+                hmap.put(arr[i],hmap.get(arr[i])+1);
+            }
+            else{
+                hmap.put(arr[i],1);
             }
         }
-
+        
+        System.out.println(hmap);
+        
+        for(Map.Entry<Integer, Integer> entry: hmap.entrySet()){
+            if (entry.getValue()>2*k){
+                return false;
+            }
+        }
+        
         return true;
+        
     }
     
-    static boolean checkCountHash(int arr[], int n, int k){
-    	HashMap <Integer, Integer> hash = new HashMap<>();
-    		for (int i = 0; i < n; i++){
-    			if (!hash.containsKey(arr[i]))
-    				hash.put(arr[i], 0);
-    			hash.put(arr[i], hash.get(arr[i]) + 1);
-    		}
-    		
-    		for (Map.Entry x : hash.entrySet()){
-            	if ((int)x.getValue() > 2 * k)
-            		return false;
-            }
-        return true;
-    }
-
-
-    public static void main(String[] args) {
-        int[] arr = { 1, 1, 2, 3, 1 };
-        int n = arr.length;
-        int k = 2;
-        if (checkCount(arr, n, k)){
-            System.out.println("Yes it is possible to distribute");
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        
+        int n=sc.nextInt();
+        int[] arr=new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=sc.nextInt();
         }
-        if (checkCountHash(arr, n, k)){
-            System.out.println("Yes it is possible to distribute (hash method)");
+        
+        int k=sc.nextInt();
+        
+        if (checkPossible(arr,n,k)){
+            System.out.println("Yes");
         }
         else{
-            System.out.println("No it is not possible to distribute");
+            System.out.println("No");
         }
     }
 }
